@@ -71,8 +71,8 @@ class LEDmatrix:
         xImage = 0 #self.__xImage
         columns = matrixProperties.COLUMNS
         while columns > 0:
-            if xMatrix %2 ==1:
-                y = 0
+            if xMatrix %2 == 0:
+                y = 0 #0
                 self.__fillAsc__(xImage, yMatrix) # Farbwerte von image-array nach rgb-array bei ungerader Spalte
             else:
                 y = matrixProperties.ROWS - 1
@@ -108,14 +108,13 @@ class LEDmatrix:
         # Set frame duration to 50ms (20 frames per second)
         self.__deviceObject.set_frame_duration(frequenz)
 
-
-    """ alle LED-Farbwerte löschen (ohne das Bild zu löschen) """
+    """ alle LED-Farbwerte löschen (ohne das Bild zu löschen) 
     def lightOff(self):
         i = 0
-        while i < matrixProperties.COLUMNS: # hier 20
-            self.__deviceObject.set_rgb_values(i*matrixProperties.ROWS, matrixProperties.ROWS, [0]*matrixProperties.NUM_LEDS, [0]*matrixProperties.NUM_LEDS, [0]*matrixProperties.NUM_LEDS)
+        while i < 20: # hier 20
+            self.__deviceObject.set_rgb_values(i*10, 10, [0]*matrixProperties.NUM_LEDS, [0]*matrixProperties.NUM_LEDS, [0]*matrixProperties.NUM_LEDS)
             i += 1
-
+    """
 
     """ Methoden: Bild ändern und als Array zurückgeben"""
 

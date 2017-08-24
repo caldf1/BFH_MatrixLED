@@ -11,7 +11,7 @@ Threading: The run() method will be started and it will run in the background un
 class MoveableLEDMatrix(object):
 
 
-    def __init__(self, interval=1, myImage=imageProperties.forms1, imageFormat='normal'):
+    def __init__(self, interval=0.02, myImage=imageProperties.forms1, imageFormat='normal'):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds
@@ -34,7 +34,8 @@ class MoveableLEDMatrix(object):
         self.__move = 'false'                                                       # 'false' oder 'true'
         self.__moveHorizontal = 'false'                                             # 'right' oder 'left' oder 'false'
         self.__moveVertical = 'false'                                               # 'up' oder 'down' oder 'false'
-
+        self.__lightOff = 'false' # 'false' or 'true'
+        
         # zum ablesen des inputImage
 #        self.__cycleX = 0                                                           # für die Bewegung nach links und rechts
 #        self.__cycleY = 0                                                           # für die Bewegung nach oben und unten
@@ -47,6 +48,7 @@ class MoveableLEDMatrix(object):
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True                            # Daemonize thread
         thread.start()                                  # Start the execution
+        self.__stopped = 'false'
 
 
 
@@ -61,7 +63,7 @@ class MoveableLEDMatrix(object):
         yMove = 0
         if self.__move != 'false': # y = (x + 1) %(maxX + 1)
             # links-rechts-Bewegung
-            if self.__moveHorizontal != 'false':
+            if (self.__moveHorizontal != 'false' and self.__format != 'column'):
                 if self.__moveHorizontal == 'right':
                     xMove = (self.__startX + 1) % len(self.__inputImage)
 
@@ -72,18 +74,17 @@ class MoveableLEDMatrix(object):
 
                         
             # oben-unten-Bewegung
-            if self.__moveVertical != 'false':
+            if self.__moveVertical != 'false' and self.__format != 'row':
                 if self.__moveVertical == 'up':
                     yMove = (self.__startY + 1) % len(self.__inputImage[xMove])
-
+    
                 if self.__moveVertical == 'down':
                     yMove = (self.__startY - 1) % len(self.__inputImage[xMove])
 
                 self.__startY = yMove
 
-
         # Keine Bewegung
-        else: 
+        else:
             xMove = self.__startX
             yMove = self.__startY
 
@@ -98,7 +99,7 @@ class MoveableLEDMatrix(object):
             x += 1
             xMove = (xMove + 1) % len(self.__inputImage)
 
-
+     
 
 
 
@@ -107,10 +108,18 @@ class MoveableLEDMatrix(object):
         """ Method that runs forever """
         while True:
             time.sleep(self.interval)
+            # print("thread runs") # zum testen
+            if self.__stopped== 'true':
+                print("Thread stopped")
+                break
 
             # Bild ändern und an Matrix "senden"
-            self.__loadImage__()
-            self.__matrix.setImage(self.__matrixImage)
+            if self.__lightOff is 'false':
+                self.__loadImage__()
+                self.__matrix.setImage(self.__matrixImage)
+            else:
+                self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)])   
+
 
 
 
@@ -206,5 +215,27 @@ class MoveableLEDMatrix(object):
         self.__startColumn = startColumn - 1
         self.__startRow = startRow -1
     
+
+# connect(), finish(), setVelocity(), lightOff()
+
+    def connect(self):
+        self.__matrix.connect()
+
+    def finish(self):
+        self.__matrix.finish()
+        input("\nPress key to finish Thread\n")
+        self.__stopped = 'true'
+        
+
+
+    def setVelocity(self, frequenz):
+        self.__matrix.setVelocity(self, frequenz)
+
+            
+    def lightOff(self):
+        self.__lightOff = 'true'
+
+    def lightOn(self):
+        self.__lightOff = 'false'
 
 

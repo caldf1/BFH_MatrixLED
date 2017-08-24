@@ -8,7 +8,7 @@ ROWS = 10
 COLUMNS = 20
 NUM_LEDS = 16
 
-START_LED = [COLUMNS - 1, 0] # {19x, 0y} im Koordinatensytem
+START_LED = COLUMNS - 1 # {19x} im Koordinatensytem
 LED_MAX = ROWS * COLUMNS - 1
 MATRIX_DEFAULT = [[0 for i in range(ROWS)] for i in range(COLUMNS)] # [[0 for i in range(10)] for i in range(20)]
 
@@ -27,10 +27,9 @@ def LEDnr():
     value = 0         
     array = MATRIX_DEFAULT # [[0 for i in range(10)] for i in range(20)]
 
-    x = START_LED[0]        # 19 
-    y = START_LED[1]        # 0
+    x = START_LED        # 19 
     while x > -1:
-        if x %2 == 1:       # von y0 nach yMax (=ROWS-1)
+        if x %2 == 0:       # von y0 nach yMax (=ROWS-1)
             y = 0
             while y < ROWS:
                 array[x][y] = value
