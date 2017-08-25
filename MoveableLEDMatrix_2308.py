@@ -11,7 +11,7 @@ Threading: The run() method will be started and it will run in the background un
 class MoveableLEDMatrix(object):
 
 
-    def __init__(self, interval=0.02, myImage=imageProperties.forms1, imageFormat='normal'):
+    def __init__(self, interval=0.1, myImage=imageProperties.forms1, imageFormat='normal'):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds
@@ -45,10 +45,11 @@ class MoveableLEDMatrix(object):
 
 
         # Thread erstellen und starten, läuft dann im Hintergrund
+        self.__stopped = 'false'
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True                            # Daemonize thread
         thread.start()                                  # Start the execution
-        self.__stopped = 'false'
+        
 
 
 
@@ -106,8 +107,7 @@ class MoveableLEDMatrix(object):
 
     def run(self):
         """ Method that runs forever """
-        while True:
-            time.sleep(self.interval)
+        while True:            
             # print("thread runs") # zum testen
             if self.__stopped== 'true':
                 print("Thread stopped")
@@ -115,8 +115,14 @@ class MoveableLEDMatrix(object):
 
             # Bild ändern und an Matrix "senden"
             if self.__lightOff is 'false':
+                
                 self.__loadImage__()
                 self.__matrix.setImage(self.__matrixImage)
+                time.sleep(self.interval - 0.2) # Variante 1 (Variante 2 -> time.sleep(0.2)
+
+                self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)]) 
+                time.sleep(0.2) # Variante 1 (Variante 2 -> time.sleep(self.interval - 0.2)
+
             else:
                 self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)])   
 

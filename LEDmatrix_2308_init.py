@@ -16,7 +16,7 @@ class LEDmatrix:
         self.__deviceObject = BrickletLEDStrip(matrixProperties.UID, self.__ipcon)  # Create device object
         self.__ipcon.connect(matrixProperties.HOST, matrixProperties.PORT)          # Connect to brickd
         print("Verbindung zu brickd hergestellt.")
-        self.__deviceObject.set_frame_duration(20)                                 # Default-Geschwindigkeit setzen
+        self.__deviceObject.set_frame_duration(20)                                 # Default-Geschwindigkeit setzen, 20ms ergibt 20 Bilder pro Sekunde
 
         self.__image = imageProperties.defaultImage                                 # Default-Bild setzen
         self.__rgb = matrixProperties.colorRowsRGB()                                # leerer RGB-Array setzen
