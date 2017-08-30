@@ -1,4 +1,4 @@
-from MoveableLEDMatrix_2308 import *
+from MoveableLEDmatrix_2308 import *
 import imageProperties
 
 
