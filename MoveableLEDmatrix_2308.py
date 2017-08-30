@@ -46,7 +46,7 @@ class MoveableLEDmatrix(object):
 
         # Thread erstellen und starten, läuft dann im Hintergrund
         self.__stopped = 'false'
-        thread = threading.Thread(target=self.run, args=())
+        thread = threading.Thread(target=self.__run__, args=())
         thread.daemon = True                            # Daemonize thread
         thread.start()                                  # Start the execution
         
@@ -107,7 +107,7 @@ class MoveableLEDmatrix(object):
 
 
 
-    def run(self):
+    def __run__(self):
         """ Method that runs forever """
         while True:            
             # print("thread runs") # zum testen

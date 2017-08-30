@@ -18,7 +18,7 @@ class heartrate4_LEDmatrix(object):
         self.__matrixTextfield = [[[] for i in range(5)] for i in range(matrixProperties.COLUMNS)]
         self.__rateTextfield = 0.5
         self.__stopThreadTextfield = 'false'
-        threadTextfield = threading.Thread(target=self.runTextfield, args=())
+        threadTextfield = threading.Thread(target=self.__runTextfield__, args=())
         threadTextfield.daemon = True
         threadTextfield.start()
         
@@ -27,7 +27,7 @@ class heartrate4_LEDmatrix(object):
         self.__matrixHeart1 = [[[] for i in range(5)] for i in range(5)]
         self.__heartrate1 = 0.33
         self.__stopThreadHeart1 = 'false'
-        threadHeart1 = threading.Thread(target=self.runHeart1, args=())
+        threadHeart1 = threading.Thread(target=self.__runHeart1__, args=())
         threadHeart1.daemon = True
         threadHeart1.start()
         
@@ -36,7 +36,7 @@ class heartrate4_LEDmatrix(object):
         self.__matrixHeart2 = [[[] for i in range(5)] for i in range(5)]
         self.__heartrate2 = 1.25
         self.__stopThreadHeart2 = 'false'
-        threadHeart2 = threading.Thread(target=self.runHeart2, args=())
+        threadHeart2 = threading.Thread(target=self.__runHeart2__, args=())
         threadHeart2.daemon = True
         threadHeart2.start()
         
@@ -45,7 +45,7 @@ class heartrate4_LEDmatrix(object):
         self.__matrixHeart3 = [[[] for i in range(5)] for i in range(5)]
         self.__heartrate3 = 0.5
         self.__stopThreadHeart3 = 'false'
-        threadHeart3 = threading.Thread(target=self.runHeart3, args=())
+        threadHeart3 = threading.Thread(target=self.__runHeart3__, args=())
         threadHeart3.daemon = True
         threadHeart3.start()
         
@@ -54,14 +54,14 @@ class heartrate4_LEDmatrix(object):
         self.__matrixHeart4 = [[[] for i in range(5)] for i in range(5)]
         self.__heartrate4 = 1
         self.__stopThreadHeart4 = 'false'
-        threadHeart4 = threading.Thread(target=self.runHeart4, args=())
+        threadHeart4 = threading.Thread(target=self.__runHeart4__, args=())
         threadHeart4.daemon = True
         threadHeart4.start()
 
         
         self.__matrixImage = [[0 for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)]
         self.__stopThreadMerge = 'false'
-        threadMerge = threading.Thread(target=self.runMerge, args=())
+        threadMerge = threading.Thread(target=self.__runMerge__, args=())
         threadMerge.daemon = True
         threadMerge.start()
         
@@ -107,7 +107,7 @@ class heartrate4_LEDmatrix(object):
 #======= run Methoden (eigene Threads) ================================================== 
 
     
-    def runTextfield(self):
+    def __runTextfield__(self):
         """ Method that runs forever """
         while True:
             # print("thread textfield runs") # zum testen
@@ -120,7 +120,7 @@ class heartrate4_LEDmatrix(object):
             
 
 
-    def runHeart1(self):
+    def __runHeart1__(self):
         """ Method that runs forever """
         while True:
             # print("thread heart1 runs") # zum testen
@@ -138,7 +138,7 @@ class heartrate4_LEDmatrix(object):
 
  
 
-    def runHeart2(self):
+    def __runHeart2__(self):
         """ Method that runs forever """        
         while True:
             # print("thread heart2 runs") # zum testen
@@ -155,7 +155,7 @@ class heartrate4_LEDmatrix(object):
             time.sleep(self.__blinkInterval) # Variante 1 
 
 
-    def runHeart3(self):
+    def __runHeart3__(self):
         """ Method that runs forever """
         while True:
             # print("thread heart3 runs") # zum testen
@@ -173,7 +173,7 @@ class heartrate4_LEDmatrix(object):
 
             
 
-    def runHeart4(self):
+    def __runHeart4__(self):
         """ Method that runs forever """
         while True:
             # print("thread heart4 runs") # zum testen
@@ -190,7 +190,7 @@ class heartrate4_LEDmatrix(object):
             time.sleep(self.__blinkInterval) # Variante 1 
 
 
-    def runMerge(self):
+    def __runMerge__(self):
         """ Method that runs forever """
         while True:
             #print("thread merge runs") # zum testen
