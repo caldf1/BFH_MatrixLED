@@ -79,7 +79,7 @@ class LEDmatrix:
                 self.__fillDesc__(xImage, matrixProperties.ROWS - (yMatrix + 1)) # Farbwerte von image-array nach rgb-array bei gerader Spalte
 
             # Aufrufen der Methode set_rgb_values(index, length, r, g, b), bei unserer Matrix ist das r und b vertauscht. (r, g, b, verlangen 16er-Array's)
-            self.__deviceObject.set_rgb_values(matrixProperties.LEDnr[xMatrix][y], matrixProperties.ROWS, self.__rgb[matrixProperties.IndexBlue], self.__rgb[matrixProperties.IndexGreen], self.__rgb[matrixProperties.IndexRed])                   
+            self.__deviceObject.set_rgb_values(matrixProperties.LEDnr[xMatrix][y], matrixProperties.ROWS, self.__rgb[matrixProperties.IndexRed], self.__rgb[matrixProperties.IndexGreen], self.__rgb[matrixProperties.IndexBlue])                   
 
             columns -= 1
             xImage += 1
