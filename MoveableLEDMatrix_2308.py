@@ -8,7 +8,7 @@ import time
 Threading: The run() method will be started and it will run in the background until the application exits.
 
 """
-class MoveableLEDMatrix(object):
+class MoveableLEDmatrix(object):
 
 
     def __init__(self, interval=0.1, myImage=imageProperties.forms1, imageFormat='normal'):
@@ -34,14 +34,14 @@ class MoveableLEDMatrix(object):
         self.__move = 'false'                                                       # 'false' oder 'true'
         self.__moveHorizontal = 'false'                                             # 'right' oder 'left' oder 'false'
         self.__moveVertical = 'false'                                               # 'up' oder 'down' oder 'false'
-        self.__lightOff = 'false' # 'false' or 'true'
+        self.__lightOff = 'false'                                                   # 'false' or 'true'
         
         # zum ablesen des inputImage
 #        self.__cycleX = 0                                                           # für die Bewegung nach links und rechts
 #        self.__cycleY = 0                                                           # für die Bewegung nach oben und unten
         self.__startX = 0 
         self.__startY = 0
-        self.__format = imageFormat # 'normal', 'column', 'row'
+        self.__format = imageFormat                                                 # 'normal', 'column', 'row'
 
 
         # Thread erstellen und starten, läuft dann im Hintergrund
@@ -100,6 +100,8 @@ class MoveableLEDMatrix(object):
             x += 1
             xMove = (xMove + 1) % len(self.__inputImage)
 
+        self.__matrix.setImage(self.__matrixImage)
+
      
 
 
@@ -117,11 +119,11 @@ class MoveableLEDMatrix(object):
             if self.__lightOff is 'false':
                 
                 self.__loadImage__()
-                self.__matrix.setImage(self.__matrixImage)
+#                self.__matrix.setImage(self.__matrixImage)
                 time.sleep(self.interval - 0.2) # Variante 1 (Variante 2 -> time.sleep(0.2)
 
-                self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)]) 
-                time.sleep(0.2) # Variante 1 (Variante 2 -> time.sleep(self.interval - 0.2)
+#                self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)]) 
+#                time.sleep(0.2) # Variante 1 (Variante 2 -> time.sleep(self.interval - 0.2)
 
             else:
                 self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)])   
@@ -194,6 +196,12 @@ class MoveableLEDMatrix(object):
 
 
 # setNumberOfColumns(), getNumberOfColumns(), setNumberOfRows, getNumberOfRows(), setStartColumnAndRow()
+
+    def setFormat(self, imageFormat):
+        self.__format = imageFormat
+
+    def getFormat(self):
+        return self.__format
 
 
     """ Anzahl Spalten (x): hier von 1 bis 20 """

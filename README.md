@@ -29,3 +29,10 @@ Weitere Methoden:
 * finish()
 * lightOff()
 * lightOn()
+
+
+Für den farbigen Puls gibt es die _heartrate4_LEDmatrix_2908.py_ mit einem Schriftzug und 4 Herzen.
+Folgende Methoden stehen zur Verfügung:
+* finish()
+* setHeartrate(heartNumber, rate)  -> heartNumber von 1 bis 4
+* getHeartrate()

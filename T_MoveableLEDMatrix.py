@@ -1,11 +1,11 @@
 from MoveableLEDMatrix_2308 import *
 import imageProperties
-import images
+
 
 if __name__ == "__main__":
 
     
-    moveMatrix = MoveableLEDMatrix(0.25, imageProperties.hello, 'normal')
+    moveMatrix = MoveableLEDmatrix( 1, imageProperties.hello, 'normal')
 
     time.sleep(1)
     moveMatrix.moveRight()
@@ -17,7 +17,7 @@ if __name__ == "__main__":
 #    moveMatrix.moveUp()
 #    time.sleep(3)
  #   moveMatrix.reset()
-#    moveMatrix.lightOff()
+ #   moveMatrix.lightOff()
     moveMatrix.finish()
 
     
