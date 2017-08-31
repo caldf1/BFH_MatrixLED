@@ -11,12 +11,13 @@ Threading: The run() method will be started and it will run in the background un
 class MoveableLEDmatrix(object):
 
 
-    def __init__(self, interval=0.1, myImage=imageProperties.forms1, imageFormat='normal'):
+    def __init__(self, interval=0.02, blinkInterval=0.01, myImage=imageProperties.forms1, imageFormat='normal'):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds
         """
-        self.interval = interval
+        self.__interval = interval
+        self.__blinkInterval = blinkInterval
 
         self.__matrix = LEDmatrix()
         self.__inputImage = myImage
@@ -35,6 +36,7 @@ class MoveableLEDmatrix(object):
         self.__moveHorizontal = 'false'                                             # 'right' oder 'left' oder 'false'
         self.__moveVertical = 'false'                                               # 'up' oder 'down' oder 'false'
         self.__lightOff = 'false'                                                   # 'false' or 'true'
+        self.__blinking = 'false'                                                   # 'false' or 'true'
         
         # zum ablesen des inputImage
 #        self.__cycleX = 0                                                           # für die Bewegung nach links und rechts
@@ -101,6 +103,7 @@ class MoveableLEDmatrix(object):
             xMove = (xMove + 1) % len(self.__inputImage)
             yMove = self.__startY
 
+        # an LEDmatrix_init übergeben
         self.__matrix.setImage(self.__matrixImage)
 
      
@@ -112,19 +115,25 @@ class MoveableLEDmatrix(object):
         """ Method that runs forever """
         while True:            
             # print("thread runs") # zum testen
-            if self.__stopped== 'true':
+            if self.__stopped == 'true':
                 print("Thread stopped")
                 break
 
             # Bild ändern und an Matrix "senden"
-            if self.__lightOff is 'false':
+            if self.__lightOff == 'false':
                 
                 self.__loadImage__()
-#                self.__matrix.setImage(self.__matrixImage)
-                time.sleep(self.interval - 0.2) # Variante 1 (Variante 2 -> time.sleep(0.2)
+                
+                if self.__blinking == 'true':
+                    if (self.__interval - self.__blinkInterval) <= 0:
+                        time.sleep(self.__interval)
+                    else:
+                        time.sleep(self.__interval - self.__blinkInterval) # Variante 1 (Variante 2 -> time.sleep(0.2)
+                    self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)])
+                    time.sleep(self.__blinkInterval) # Variante 1 (Variante 2 -> time.sleep(self.interval - 0.2)
 
-#                self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)]) 
-#                time.sleep(0.2) # Variante 1 (Variante 2 -> time.sleep(self.interval - 0.2)
+                else:
+                    time.sleep(self.__interval) # Variante 1 (Variante 2 -> time.sleep(0.2)
 
             else:
                 self.__matrix.setImage([[[0 for i in range (3)] for i in range(matrixProperties.ROWS)] for i in range(matrixProperties.COLUMNS)])   
@@ -133,10 +142,15 @@ class MoveableLEDmatrix(object):
 
 
 #======= public Methoden ==================================================
-# startMove(), waiting(), stopMovingHorizontal(), stopMovingVertical(), stopMove(),
+# startBlinking(), stopBlinking(), startMove(), waiting(), stopMovingHorizontal(), stopMovingVertical(), stopMove(),
 # moveRight(), moveLeft(), moveUp(), moveDown(), reset()
 
+    def startBlinking(self):
+        self.__blinking = 'true'
 
+    def stopBlinking(self):
+        self.__blinking = 'false'
+        
     """ Bewegungen starten, unterbrechen, stoppen. Bewegungsrichtung einstellen (rechts, links, oben, unten)"""
 
     def startMove(self):
@@ -196,7 +210,7 @@ class MoveableLEDmatrix(object):
 
 
 
-# setNumberOfColumns(), getNumberOfColumns(), setNumberOfRows, getNumberOfRows(), setStartColumnAndRow()
+# setFormat(), getFormat(), setNumberOfColumns(), getNumberOfColumns(), setNumberOfRows, getNumberOfRows(), setStartColumnAndRow()
 
     def setFormat(self, imageFormat):
         self.__format = imageFormat
@@ -231,7 +245,7 @@ class MoveableLEDmatrix(object):
         self.__startRow = startRow -1
     
 
-# connect(), finish(), setVelocity(), lightOff()
+# connect(), finish(), setInputImage(), setVelocity(), lightOff()
 
     def connect(self):
         self.__matrix.connect()
@@ -241,7 +255,9 @@ class MoveableLEDmatrix(object):
         input("\nPress key to finish Thread\n")
         self.__stopped = 'true'
         
-
+    def setInputImage(self, image):
+        self.__inputImage = image
+        
 
     def setVelocity(self, frequenz):
         self.__matrix.setVelocity(self, frequenz)
