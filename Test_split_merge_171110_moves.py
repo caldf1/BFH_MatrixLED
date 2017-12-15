@@ -12,7 +12,8 @@ if __name__ == "__main__":
 
     time.sleep(2)
 
-    imageObj.setInputImage(imageProperties.bild11Zeilen) # auch schön mit imageProperties.hearts1
+    # auch schön mit imageProperties.hearts1
+    imageObj.setInputImage(imageProperties.bild11Zeilen)
     time.sleep(2)
 
     imageObj.setMoveTime(0.1)
@@ -60,6 +61,3 @@ if __name__ == "__main__":
     matrix.finish()
     print('\nBewegungs-Test erfolgreich.\n')
     time.sleep(5)
-
-
-

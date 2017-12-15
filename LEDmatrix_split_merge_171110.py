@@ -1,6 +1,7 @@
 from LEDmatrix_init_171110 import *
 from LEDmatrix_moveableImage_171110 import *
 import imageProperties
+import matrixProperties
 import threading
 import time
 
@@ -28,7 +29,6 @@ class LEDmatrix:
                                         [0, 10])
             self.__objectlist.append(squareImage)
 
-
         if (self.__case == 'colorHeartrate'):
             # Es werden 5 bewegbare Bildinstanzen erstellt.
             # (oben = "Puls", unten-links = gelb, unten-2.v.links = blau, unten-3.v.Links = weiss, unten-4.v.Links = ).
@@ -55,7 +55,6 @@ class LEDmatrix:
             bottom3rdLeftImage.setHeartrateFlag(True)
             bottom4thLeftImage.setHeartrateFlag(True)
 
-
         if (self.__case == 'quarters4'):
             # Es werden 4 bewegbare Bildinstanzen erstellt.
             # (oben-links = rot, oben-rechts = gelb, unten-links = blau, unten-rechts = weiss).
@@ -69,7 +68,6 @@ class LEDmatrix:
                                              [[[255, 255, 255] for i in range(5)] for i in range(10)], [10, 10], [5, 5])
             self.__objectlist.extend((topLeftImage, topRightImage, bottomLeftImage, bottomRightImage))
 
-
         if (self.__case == 'row2'):
             # Es werden 2 bewegbare Bildinstanzen erstellt.
             # (obere und untere Bildinstanz). Farbe oben = rot, Farbe unten = blau.
@@ -77,7 +75,6 @@ class LEDmatrix:
             bottomImage = MoveableImage("bottomImage", [[[0, 0, 255] for i in range(5)] for i in range(20)], [0, 20],
                                         [5, 5])
             self.__objectlist.extend((topImage, bottomImage))
-
 
         if (self.__case == 'col2'):
             # Es werden 2 bewegbare Bildinstanzen erstellt.
@@ -87,7 +84,6 @@ class LEDmatrix:
             rightImage = MoveableImage("rightImage", [[[0, 0, 255] for i in range(10)] for i in range(10)], [10, 10],
                                        [0, 10])
             self.__objectlist.extend((leftImage, rightImage))
-
 
         if (self.__case == 'single'):
             # Die Matrix wird nicht geteilt, es wird nur 1 bewegbare Bildinstanz erstellt.
@@ -107,7 +103,9 @@ class LEDmatrix:
                 break
 
             mergeImage = []
-            image = [[[self.__bgRed, self.__bgGreen, self.__bgBlue] for i in range(10)] for i in range(20)]
+            # image = [[[self.__bgRed, self.__bgGreen, self.__bgBlue] for i in range(10)] for i in range(20)]
+            image = [[[self.__bgRed, self.__bgGreen, self.__bgBlue] for i in range(mergeProperties.ROWS)] for i in
+                     range(mergeProperties.COLUMNS)]
 
             # alle aktuellen Bilder der Bildinstanzen "abholen"
             j = 0
@@ -167,7 +165,6 @@ class LEDmatrix:
         """
         return self.__case
 
-
     #  @LEDmatrix.route('ledmatrix.bfh.ch/api/v1.0/LEDmatrix/finish[PUT])
     def finish(self):
         """ Programm beenden.
@@ -186,6 +183,3 @@ class LEDmatrix:
         time.sleep(2)
         input("\nPress key to exit\n")
         self.__ledMatrix.finish()
-
-
-

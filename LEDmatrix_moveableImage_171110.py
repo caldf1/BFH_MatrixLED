@@ -33,10 +33,10 @@ class MoveableImage(object):
         self.__move = False  # Boolean: False / True
         self.__moveHorizontal = None  # 'right', 'left', 'false'
         self.__moveVertical = None  # 'up', 'down', 'false'
-        self.__moveTime = 1  # Angaben in Sekunden, Bild wird alle x Sekunden bewegt
+        self.__moveTime = 1.0  # Angaben in Sekunden, Bild wird alle x Sekunden bewegt
 
         self.__blinken = False  # Boolean: False / True
-        self.__Hz = 1  # Frequenz: Hertz = Vorgänge pro Sekunde 1
+        self.__Hz = 1.0  # Frequenz: Hertz = Vorgänge pro Sekunde 1
         self.__timingRatio = [1, 1]  # Bild gleich lange an wie aus  1,1
         self.__on_off = [0.5, 0.5]  # [Bild an, Bild aus] Angaben in Sekunden 0.5 0.5
         self.__light = True  # Boolean: False / True
@@ -313,6 +313,7 @@ class MoveableImage(object):
         self.stopBlink()
         self.__startX = 0
         self.__startY = 0
+        self.__loadImage__()
 
     # @LEDmatrix.route('ledmatrix.bfh.ch/api/v1.0/MoveableImage/moveRight[PUT])
     def moveRight(self):
@@ -437,5 +438,6 @@ class MoveableImage(object):
         """ Um das Licht ein- und auszuschalten.
             :param state: bool
         """
-        self.__light = state
         self.__blinken = False
+        time.sleep(1)
+        self.__light = state
